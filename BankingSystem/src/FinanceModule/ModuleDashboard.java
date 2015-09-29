@@ -91,7 +91,7 @@ public ModuleDashboard() {
         });
 
         jButton5.setFont(new java.awt.Font("Times New Roman", 1, 12)); // NOI18N
-        jButton5.setText("BANK STATEMENTS");
+        jButton5.setText("LOANS");
 
         jLabel1.setFont(new java.awt.Font("Times New Roman", 1, 18)); // NOI18N
         jLabel1.setText("CHOOSE AN OPTION TO CONTINUE");

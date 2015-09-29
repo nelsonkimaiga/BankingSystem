@@ -145,10 +145,8 @@ public class AccountOperations extends javax.swing.JFrame {
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 225, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(txtsearch, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addComponent(jButton1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addGap(5, 5, 5)))
+                    .addComponent(txtsearch)
+                    .addComponent(jButton1, javax.swing.GroupLayout.DEFAULT_SIZE, 34, Short.MAX_VALUE))
                 .addContainerGap(33, Short.MAX_VALUE))
         );
 
@@ -211,7 +209,7 @@ dispose();// TODO add your handling code here:
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         String t=txtsearch.getText();
-        String sql = "Select * from projectlogin where username like '"+t+"%'";
+        String sql = "Select * from clients where surname like '"+t+"%'";
         try{
             st = (com.mysql.jdbc.Statement) conn.prepareStatement(sql);
             rs = (ResultSet) st.executeQuery(sql);

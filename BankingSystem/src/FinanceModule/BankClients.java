@@ -12,7 +12,7 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import javax.swing.JOptionPane;
 import javax.swing.UIManager;
-
+import net.proteanit.sql.DbUtils;
 /**
  *
  * @author Kimaiga
@@ -59,9 +59,21 @@ this.setResizable(false); //disable resizing of the window
                     {
 	      JOptionPane.showMessageDialog(null, "Cannot connect to the database,check network settings.","ERROR",JOptionPane.ERROR_MESSAGE);
 	            }
-        LoadAccount();
+        LoadAccount();//This function will populate our combo box
+        updateJTable(); //This fucntion will populate our JTable
     }
-
+ private void updateJTable(){
+             try{
+             String sql ="Select `id_no`,`surname`,`middle_name`, `first_name`, `account_type` FROM `clients` ";
+           st=conn.prepareStatement(sql);
+           rs=st.executeQuery(sql);
+           jTable1.setModel(DbUtils.resultSetToTableModel(rs));
+         }
+         catch(Exception e){
+             JOptionPane.showMessageDialog(null, e);
+             
+         } 
+ }
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -268,7 +280,7 @@ this.setResizable(false); //disable resizing of the window
         
         if (userInput.length() >0 ) {
   try {
-            String sql="INSERT INTO clients VALUES('"+txtid.getText()+"',"+"'"+txtsurname+"','"+txtmiddlename.getText()+"','"+txtfirst.getText()+"','"+cbotype.getSelectedItem().toString()+"',0)";
+            String sql="INSERT INTO clients VALUES('"+txtid.getText()+"',"+"'"+txtsurname.getText()+"',"+"'"+txtmiddlename.getText()+"','"+txtfirst.getText()+"','"+cbotype.getSelectedItem().toString()+"',0)";
 //executing our SQL QUERY
 	              st.execute(sql);
 	                JOptionPane.showMessageDialog(null,"Details successfully saved.","Information",JOptionPane.INFORMATION_MESSAGE );

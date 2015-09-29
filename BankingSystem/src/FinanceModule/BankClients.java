@@ -62,6 +62,8 @@ this.setResizable(false); //disable resizing of the window
         LoadAccount();//This function will populate our combo box
         updateJTable(); //This fucntion will populate our JTable
     }
+    
+    //Code that updates our JTable
  private void updateJTable(){
              try{
              String sql ="Select `id_no`,`surname`,`middle_name`, `first_name`, `account_type` FROM `clients` ";
@@ -102,6 +104,7 @@ this.setResizable(false); //disable resizing of the window
         jButton4 = new javax.swing.JButton();
         update = new javax.swing.JButton();
         cbotype = new javax.swing.JComboBox();
+        jButton5 = new javax.swing.JButton();
         jMenuBar1 = new javax.swing.JMenuBar();
         back = new javax.swing.JMenu();
         jMenuItem1 = new javax.swing.JMenuItem();
@@ -162,8 +165,20 @@ this.setResizable(false); //disable resizing of the window
         jButton4.setText("Delete");
 
         update.setText("Update");
+        update.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                updateActionPerformed(evt);
+            }
+        });
 
         cbotype.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "-SELECT AN ACCOUNT TYPE-" }));
+
+        jButton5.setText("Refresh");
+        jButton5.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton5ActionPerformed(evt);
+            }
+        });
 
         back.setText("File");
 
@@ -197,7 +212,10 @@ this.setResizable(false); //disable resizing of the window
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 181, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 181, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jButton5))
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                             .addComponent(jLabel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -232,8 +250,12 @@ this.setResizable(false); //disable resizing of the window
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addComponent(jLabel1)
-                .addGap(18, 18, 18)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel1)
+                    .addGroup(layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(jButton5)))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
@@ -264,7 +286,7 @@ this.setResizable(false); //disable resizing of the window
                     .addComponent(jButton3)
                     .addComponent(jButton4)
                     .addComponent(update))
-                .addContainerGap(45, Short.MAX_VALUE))
+                .addContainerGap(40, Short.MAX_VALUE))
         );
 
         pack();
@@ -343,6 +365,46 @@ dispose();// TODO add your handling code here:
                        cbotype.setSelectedIndex(0);        // TODO add your handling code here:
     }//GEN-LAST:event_jButton2ActionPerformed
 
+    private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
+        // TODO add your handling code here:
+        String sql = "Select `id_no`,`surname`,`middle_name`, `first_name`, `account_type` FROM `clients` ";
+        try{
+            
+            rs = (ResultSet) st.executeQuery(sql);
+            st = (com.mysql.jdbc.Statement) conn.prepareStatement(sql);                            //Refreshes our JTable
+            jTable1.setModel(DbUtils.resultSetToTableModel(rs));                                
+        } catch(Exception exp){
+            JOptionPane.showMessageDialog(null, exp,"Error",JOptionPane.ERROR_MESSAGE);           
+
+        }        // TODO add your handling code here:
+    }//GEN-LAST:event_jButton5ActionPerformed
+
+    private void updateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_updateActionPerformed
+        String del_id=txtid.getText();
+        if (!txtid.getText().equals("")) {
+            int a=JOptionPane.showConfirmDialog(rootPane, "Delete ID Number "+del_id, "DELETE", JOptionPane.YES_NO_OPTION);
+            if (a==JOptionPane.OK_OPTION) {
+                String sql = "delete  from account where account_type = '"+del_id+"'";
+        try{
+            
+             st = (com.mysql.jdbc.Statement) conn.prepareStatement(sql);
+            st.executeUpdate(sql);
+            JOptionPane.showMessageDialog(null, "Deletion successful.");
+                                            
+        } catch(Exception exp){
+            JOptionPane.showMessageDialog(null, "Items selected are not deleted,try again! ","Error",JOptionPane.ERROR_MESSAGE);           
+
+        }
+                
+            } else {
+            }
+            
+            
+        } else {
+            JOptionPane.showMessageDialog(null, "Select item(s) to delete");
+        }        // TODO add your handling code here:
+    }//GEN-LAST:event_updateActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -369,6 +431,7 @@ dispose();// TODO add your handling code here:
     private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton3;
     private javax.swing.JButton jButton4;
+    private javax.swing.JButton jButton5;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;

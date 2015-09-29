@@ -145,8 +145,6 @@ public ModuleDashboard() {
  int a=JOptionPane.showConfirmDialog(rootPane, "Are you sure you want to exit?", "EXIT", JOptionPane.YES_NO_OPTION);
         if (a==JOptionPane.OK_OPTION) {
             System.exit(0);
-            
-            
         } else {
         }        
 // TODO add your handling code here:

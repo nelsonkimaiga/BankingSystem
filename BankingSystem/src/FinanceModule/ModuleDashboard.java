@@ -65,7 +65,12 @@ public ModuleDashboard() {
             }
         });
 
-        jButton2.setText("PAYMENT ORDERS");
+        jButton2.setText("REGISTER BANKING CLIENTS");
+        jButton2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton2ActionPerformed(evt);
+            }
+        });
 
         jButton3.setText("PETTY CASH DISBURSMENTS");
 
@@ -160,6 +165,11 @@ public ModuleDashboard() {
 new Accounts().setVisible(true);
 dispose();// TODO add your handling code here:
     }//GEN-LAST:event_jButton1ActionPerformed
+
+    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+new BankClients().setVisible(true);
+dispose();// TODO add your handling code here:
+    }//GEN-LAST:event_jButton2ActionPerformed
 
     /**
      * @param args the command line arguments

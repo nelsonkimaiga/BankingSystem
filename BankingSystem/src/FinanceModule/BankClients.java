@@ -126,6 +126,11 @@ this.setResizable(false); //disable resizing of the window
         });
 
         jButton2.setText("Clear");
+        jButton2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton2ActionPerformed(evt);
+            }
+        });
 
         jTable1.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -263,17 +268,11 @@ this.setResizable(false); //disable resizing of the window
         
         if (userInput.length() >0 ) {
   try {
-            String sql="INSERT INTO accounts VALUES('"+txtid.getText()+"',"+"'"+txtsurname+"',"+"'"+txtmiddlename.getText()+"',"+"'"+txtfirst.getText()+"',"+",'"+cbotype.getSelectedItem().toString()+"', 0)";
+            String sql="INSERT INTO clients VALUES('"+txtid.getText()+"',"+"'"+txtsurname+"','"+txtmiddlename.getText()+"','"+txtfirst.getText()+"','"+cbotype.getSelectedItem().toString()+"',0)";
 //executing our SQL QUERY
 	              st.execute(sql);
 	                JOptionPane.showMessageDialog(null,"Details successfully saved.","Information",JOptionPane.INFORMATION_MESSAGE );
-                        
-                        //code that resets input fields
-                        txtid.setText("");
-                       txtsurname.setText("");
-                       txtmiddlename.setText("");
-                       txtfirst.setText("");
-                       cbotype.setSelectedIndex(0);
+
                        
 //catch any errors may occur
         } catch (Exception e) {
@@ -321,6 +320,16 @@ dispose();// TODO add your handling code here:
 new Accounts().setVisible(true);
 dispose();// TODO add your handling code here:
     }//GEN-LAST:event_jMenuItem2ActionPerformed
+
+    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+                        
+                        //code that resets input fields
+                        txtid.setText("");
+                       txtsurname.setText("");
+                       txtmiddlename.setText("");
+                       txtfirst.setText("");
+                       cbotype.setSelectedIndex(0);        // TODO add your handling code here:
+    }//GEN-LAST:event_jButton2ActionPerformed
 
     /**
      * @param args the command line arguments

@@ -163,6 +163,11 @@ this.setResizable(false); //disable resizing of the window
         jButton3.setText("search");
 
         jButton4.setText("Delete");
+        jButton4.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton4ActionPerformed(evt);
+            }
+        });
 
         update.setText("Update");
         update.addActionListener(new java.awt.event.ActionListener() {
@@ -380,11 +385,42 @@ dispose();// TODO add your handling code here:
     }//GEN-LAST:event_jButton5ActionPerformed
 
     private void updateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_updateActionPerformed
+        // TODO add your handling code here:
+        String del_id=txtid.getText();
+
+        if (!txtid.getText().equals("")) {
+            int a=JOptionPane.showConfirmDialog(rootPane, "Are you sure you want to update? "+del_id, "UPDATE", JOptionPane.YES_NO_OPTION);
+            if (a==JOptionPane.OK_OPTION) {
+                String sql = "Update clients set surname ='"+txtsurname.getText()+"', middle_name ='"+txtmiddlename.getText()+"' , first_name ='"+txtfirst.getText()+"', account_type ='"+cbotype.getSelectedItem().toString()+"' where id_no='"+txtid.getText()+"'";
+
+
+        try{
+            
+           st =     (com.mysql.jdbc.Statement) conn.prepareStatement(sql);
+            st.executeUpdate(sql);
+            
+                                            
+        } catch(Exception exp){
+            JOptionPane.showMessageDialog(null, exp,"Error",JOptionPane.ERROR_MESSAGE);           
+
+        }
+                
+            } else {
+            }
+            
+            
+        } else {
+            JOptionPane.showMessageDialog(null, "Please select item(s) to update? ","Error",JOptionPane.ERROR_MESSAGE);
+        }
+        // TODO add your handling code here:
+    }//GEN-LAST:event_updateActionPerformed
+
+    private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
         String del_id=txtid.getText();
         if (!txtid.getText().equals("")) {
             int a=JOptionPane.showConfirmDialog(rootPane, "Delete ID Number "+del_id, "DELETE", JOptionPane.YES_NO_OPTION);
             if (a==JOptionPane.OK_OPTION) {
-                String sql = "delete  from account where account_type = '"+del_id+"'";
+                String sql = "delete  from clients where account_type = '"+del_id+"'";
         try{
             
              st = (com.mysql.jdbc.Statement) conn.prepareStatement(sql);
@@ -403,7 +439,7 @@ dispose();// TODO add your handling code here:
         } else {
             JOptionPane.showMessageDialog(null, "Select item(s) to delete");
         }        // TODO add your handling code here:
-    }//GEN-LAST:event_updateActionPerformed
+    }//GEN-LAST:event_jButton4ActionPerformed
 
     /**
      * @param args the command line arguments

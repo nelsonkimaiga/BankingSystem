@@ -167,6 +167,28 @@ this.setResizable(false); //disable resizing of the window
 //adding code that sends data to our database
         //declaring of variables and validation
 
+        String userInput=txtaccountname.getText();
+        String userInput2=txtdescription.getText();
+        
+        if (userInput.length() >0 ) {
+  try {
+            String sql="INSERT INTO accounts VALUES('"+userInput+"',"+"'"+userInput+"',0)";
+//executing our SQL QUERY
+	              st.execute(sql);
+	                JOptionPane.showMessageDialog(null,"Details successfully saved.","Information",JOptionPane.INFORMATION_MESSAGE );
+                        
+                        //code that resets inout fields
+                        txtaccountname.setText("");
+                       txtdescription.setText("");
+//catch any errors may occur
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(rootPane, e.getMessage());
+        }
+         
+
+        } else if(txtaccountname.equals("")|| txtdescription.equals("")){
+            JOptionPane.showMessageDialog(null, "Fields empty. Enter your details ","Error",JOptionPane.ERROR_MESSAGE);
+        }
 
 // TODO add your handling code here:
     }//GEN-LAST:event_jButton1ActionPerformed

@@ -15,6 +15,16 @@ import javax.swing.JOptionPane;
  * @author Kimaiga
  */
 public class BankClients extends javax.swing.JFrame {
+        //database variables
+       Connection conn= null;
+        
+        String url = "jdbc:mysql://localhost/"; //database URL
+        String dbName = "banking_system"; //database system
+        String driver ="com.mysql.jdbc.Driver"; //driver specified
+        String userName = "root"; //DB username
+        String password = ""; //password
+        Statement st;
+        ResultSet rs;
 
     /**
      * Creates new form BankClients
@@ -32,7 +42,18 @@ public class BankClients extends javax.swing.JFrame {
         setLocationRelativeTo(null); 
 
  //disable resizing of the window
-this.setResizable(false); 
+this.setResizable(false);
+         try{
+	       Class.forName(driver);
+
+             conn = (com.mysql.jdbc.Connection) DriverManager.getConnection(url+dbName,userName,password);
+
+              st = (com.mysql.jdbc.Statement) conn.createStatement();
+	      }
+	            catch(Exception exp)
+                    {
+	      JOptionPane.showMessageDialog(null, "Cannot connect to the database,check network settings.","ERROR",JOptionPane.ERROR_MESSAGE);
+	            }
     }
 
     /**
@@ -92,6 +113,11 @@ this.setResizable(false);
         jLabel6.setText("Account Type");
 
         jButton1.setText("Register");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
 
         jTable1.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -239,6 +265,41 @@ dispose();// TODO add your handling code here:
  new Accounts().setVisible(true);
 dispose();       // TODO add your handling code here:
     }//GEN-LAST:event_accountsActionPerformed
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        //declaration of variables
+        String userInput=txtid.getText();
+        String userInput2=txtsurname.getText();
+        String userInput3=txtmiddlename.getText();
+        String userInput4=txtfirst.getText();
+        String account_type=cbotype.getSelectedItem().toString();
+        
+        if (userInput.length() >0 ) {
+  try {
+            String sql="INSERT INTO accounts VALUES('"+txtid.getText()+"',"+"'"+txtsurname+"',"+"'"+txtmiddlename.getText()+"',"+"'"+txtfirst.getText()+"',"+",'"+cbotype.getSelectedItem().toString()+"', 0)";
+//executing our SQL QUERY
+	              st.execute(sql);
+	                JOptionPane.showMessageDialog(null,"Details successfully saved.","Information",JOptionPane.INFORMATION_MESSAGE );
+                        
+                        //code that resets input fields
+                        txtid.setText("");
+                       txtsurname.setText("");
+                       txtmiddlename.setText("");
+                       txtfirst.setText("");
+                       cbotype.setSelectedIndex(0);
+                       
+//catch any errors may occur
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(rootPane, e.getMessage());
+        }
+         
+//more condition checking and error handling fucntions
+        } else if(txtid.equals("")|| txtsurname.equals("")||txtmiddlename.equals("")||txtfirst.equals("")||cbotype.equals(0)){
+            JOptionPane.showMessageDialog(null, "Fields empty. Enter your details ","Error",JOptionPane.ERROR_MESSAGE);
+        } else{
+            JOptionPane.showMessageDialog(null, "EMPTY INPUT FIELDS","Error",JOptionPane.ERROR_MESSAGE);
+        }        // TODO add your handling code here:
+    }//GEN-LAST:event_jButton1ActionPerformed
 
     /**
      * @param args the command line arguments

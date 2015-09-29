@@ -177,7 +177,7 @@ this.setResizable(false); //disable resizing of the window
 	              st.execute(sql);
 	                JOptionPane.showMessageDialog(null,"Details successfully saved.","Information",JOptionPane.INFORMATION_MESSAGE );
                         
-                        //code that resets inout fields
+                        //code that resets input fields
                         txtaccountname.setText("");
                        txtdescription.setText("");
 //catch any errors may occur
@@ -188,6 +188,8 @@ this.setResizable(false); //disable resizing of the window
 
         } else if(txtaccountname.equals("")|| txtdescription.equals("")){
             JOptionPane.showMessageDialog(null, "Fields empty. Enter your details ","Error",JOptionPane.ERROR_MESSAGE);
+        } else{
+            JOptionPane.showMessageDialog(null, "EMPTY INPUT FIELDS","Error",JOptionPane.ERROR_MESSAGE);
         }
 
 // TODO add your handling code here:

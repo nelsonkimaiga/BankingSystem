@@ -58,7 +58,12 @@ public ModuleDashboard() {
         setTitle("OPERATION DASHBOARD");
         setResizable(false);
 
-        jButton1.setText("INDIVIDUAL PAYMENTS");
+        jButton1.setText("ACCOUNTS");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
 
         jButton2.setText("PAYMENT ORDERS");
 
@@ -82,6 +87,7 @@ public ModuleDashboard() {
         jMenu1.add(jMenuItem1);
 
         jMenuItem2.setText("Exit System");
+        jMenuItem2.setToolTipText("Click to exit system");
         jMenuItem2.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jMenuItem2ActionPerformed(evt);
@@ -149,6 +155,11 @@ public ModuleDashboard() {
         }        
 // TODO add your handling code here:
     }//GEN-LAST:event_jMenuItem2ActionPerformed
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+new Accounts().setVisible(true);
+dispose();// TODO add your handling code here:
+    }//GEN-LAST:event_jButton1ActionPerformed
 
     /**
      * @param args the command line arguments

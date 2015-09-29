@@ -6,6 +6,9 @@
 package FinanceModule;
 
 import javax.swing.UIManager;
+import java.sql.DriverManager;
+import java.sql.*;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -17,8 +20,7 @@ public class BankClients extends javax.swing.JFrame {
      * Creates new form BankClients
      */
     public BankClients() {
-        
-                        super("BankClients");
+                super("BankClients");
         try {          
             UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
 
@@ -26,9 +28,11 @@ public class BankClients extends javax.swing.JFrame {
         {
             
         }
-    
-        setLocationRelativeTo(null);
         initComponents();
+        setLocationRelativeTo(null); 
+
+this.setResizable(false); //disable resizing of the window
+
     }
 
     /**
@@ -41,30 +45,73 @@ public class BankClients extends javax.swing.JFrame {
     private void initComponents() {
 
         jLabel1 = new javax.swing.JLabel();
+        jMenuBar1 = new javax.swing.JMenuBar();
+        jMenu1 = new javax.swing.JMenu();
+        accounts = new javax.swing.JMenuItem();
+        jMenuItem2 = new javax.swing.JMenuItem();
+        jMenu2 = new javax.swing.JMenu();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setTitle("REGISTER NEW BANK CLIENTS");
+        setResizable(false);
 
-        jLabel1.setText("jLabel1");
+        jLabel1.setFont(new java.awt.Font("Times New Roman", 1, 18)); // NOI18N
+        jLabel1.setText("REGISTER NEW CLIENTS AND ASSIGN A BANK ACCOUNT");
+
+        jMenu1.setText("File");
+
+        accounts.setText("Back");
+        accounts.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                accountsActionPerformed(evt);
+            }
+        });
+        jMenu1.add(accounts);
+
+        jMenuItem2.setText("Accounts");
+        jMenuItem2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem2ActionPerformed(evt);
+            }
+        });
+        jMenu1.add(jMenuItem2);
+
+        jMenuBar1.add(jMenu1);
+
+        jMenu2.setText("Edit");
+        jMenuBar1.add(jMenu2);
+
+        setJMenuBar(jMenuBar1);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addGap(341, 341, 341)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addContainerGap(210, Short.MAX_VALUE)
                 .addComponent(jLabel1)
-                .addContainerGap(549, Short.MAX_VALUE))
+                .addGap(210, 210, 210))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jLabel1)
-                .addContainerGap(464, Short.MAX_VALUE))
+                .addContainerGap(435, Short.MAX_VALUE))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void jMenuItem2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem2ActionPerformed
+new ModuleDashboard().setVisible(true);
+dispose();// TODO add your handling code here:
+    }//GEN-LAST:event_jMenuItem2ActionPerformed
+
+    private void accountsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_accountsActionPerformed
+ new Accounts().setVisible(true);
+dispose();       // TODO add your handling code here:
+    }//GEN-LAST:event_accountsActionPerformed
 
     /**
      * @param args the command line arguments
@@ -86,6 +133,11 @@ public class BankClients extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JMenuItem accounts;
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JMenu jMenu1;
+    private javax.swing.JMenu jMenu2;
+    private javax.swing.JMenuBar jMenuBar1;
+    private javax.swing.JMenuItem jMenuItem2;
     // End of variables declaration//GEN-END:variables
 }

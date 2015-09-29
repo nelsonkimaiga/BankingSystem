@@ -106,7 +106,7 @@ this.setResizable(false); //disable resizing of the window
         cbotype = new javax.swing.JComboBox();
         jButton5 = new javax.swing.JButton();
         jLabel7 = new javax.swing.JLabel();
-        jTextField1 = new javax.swing.JTextField();
+        txtbalance = new javax.swing.JTextField();
         jMenuBar1 = new javax.swing.JMenuBar();
         back = new javax.swing.JMenu();
         jMenuItem1 = new javax.swing.JMenuItem();
@@ -163,6 +163,11 @@ this.setResizable(false); //disable resizing of the window
         jScrollPane1.setViewportView(jTable1);
 
         jButton3.setText("search");
+        jButton3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton3ActionPerformed(evt);
+            }
+        });
 
         jButton4.setText("Delete");
         jButton4.addActionListener(new java.awt.event.ActionListener() {
@@ -188,8 +193,6 @@ this.setResizable(false); //disable resizing of the window
         });
 
         jLabel7.setText("Acc Balance");
-
-        jTextField1.setText("jTextField1");
 
         back.setText("File");
 
@@ -249,7 +252,7 @@ this.setResizable(false); //disable resizing of the window
                                 .addComponent(jButton1)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                                 .addComponent(jButton2))
-                            .addComponent(jTextField1))
+                            .addComponent(txtbalance))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 30, Short.MAX_VALUE)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 452, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -292,7 +295,7 @@ this.setResizable(false); //disable resizing of the window
                         .addGap(18, 18, 18)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel7)
-                            .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                            .addComponent(txtbalance, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                     .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 172, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(21, 21, 21)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
@@ -318,11 +321,12 @@ this.setResizable(false); //disable resizing of the window
         String userInput2=txtsurname.getText();
         String userInput3=txtmiddlename.getText();
         String userInput4=txtfirst.getText();
-        String userInput5=cbotype.getSelectedItem().toString();
+        String userInput5=txtbalance.getText();
+        String userInput6=cbotype.getSelectedItem().toString();
         
         if (userInput.length() >0 ) {
   try {
-            String sql="INSERT INTO clients VALUES('"+txtid.getText()+"',"+"'"+txtsurname.getText()+"',"+"'"+txtmiddlename.getText()+"','"+txtfirst.getText()+"','"+cbotype.getSelectedItem().toString()+"',0)";
+            String sql="INSERT INTO clients VALUES('"+txtid.getText()+"',"+"'"+txtsurname.getText()+"',"+"'"+txtmiddlename.getText()+"','"+txtfirst.getText()+"','"+txtbalance.getText()+"','"+cbotype.getSelectedItem().toString()+"',0)";
 //executing our SQL QUERY
 	              st.execute(sql);
 	                JOptionPane.showMessageDialog(null,"Details successfully saved.","Information",JOptionPane.INFORMATION_MESSAGE );
@@ -382,6 +386,7 @@ dispose();// TODO add your handling code here:
                        txtsurname.setText("");
                        txtmiddlename.setText("");
                        txtfirst.setText("");
+                       txtbalance.setText("");
                        cbotype.setSelectedIndex(0);        // TODO add your handling code here:
     }//GEN-LAST:event_jButton2ActionPerformed
 
@@ -456,6 +461,24 @@ dispose();// TODO add your handling code here:
         }        // TODO add your handling code here:
     }//GEN-LAST:event_jButton4ActionPerformed
 
+    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
+        String t=txtsearch.getText();
+        String sql = "Select * from clients where surname like '"+t+"%'";
+        try{
+            st = (com.mysql.jdbc.Statement) conn.prepareStatement(sql);
+            rs = (ResultSet) st.executeQuery(sql);
+            jTable1.setModel(DbUtils.resultSetToTableModel(rs));
+            if(!rs.absolute(1)){ JOptionPane.showMessageDialog(null, "No results were found: " );}
+                
+
+        } catch(Exception exp){
+            System.out.println(exp);
+           
+
+        }
+                // TODO add your handling code here:
+    }//GEN-LAST:event_jButton3ActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -496,7 +519,7 @@ dispose();// TODO add your handling code here:
     private javax.swing.JMenuItem jMenuItem2;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTable jTable1;
-    private javax.swing.JTextField jTextField1;
+    private javax.swing.JTextField txtbalance;
     private javax.swing.JTextField txtfirst;
     private javax.swing.JTextField txtid;
     private javax.swing.JTextField txtmiddlename;

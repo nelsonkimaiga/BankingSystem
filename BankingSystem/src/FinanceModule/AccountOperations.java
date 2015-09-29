@@ -5,8 +5,14 @@
  */
 
 package FinanceModule;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
+import javax.swing.JOptionPane;
 import javax.swing.UIManager;
-import java.sql.*;
+import net.proteanit.sql.DbUtils;
 
 
 /**
@@ -14,6 +20,17 @@ import java.sql.*;
  * @author Kimaiga
  */
 public class AccountOperations extends javax.swing.JFrame {
+    
+        // database variables declaration
+        Connection conn= null;
+        
+        String url = "jdbc:mysql://localhost/"; //database URL
+        String dbName = "banking_system"; //database system
+        String driver ="com.mysql.jdbc.Driver"; //driver specified
+        String userName = "root"; //DB username
+        String password = ""; //password
+        Statement st;
+        ResultSet rs;
 
     /**
      * Creates new form AccountOperations
@@ -29,8 +46,34 @@ public class AccountOperations extends javax.swing.JFrame {
         }
         initComponents();
         setLocationRelativeTo(null);
-    }
+        
+        //Database connection
+                 try{
+	       Class.forName(driver);
 
+             conn = (com.mysql.jdbc.Connection) DriverManager.getConnection(url+dbName,userName,password);
+
+              st = (com.mysql.jdbc.Statement) conn.createStatement();
+	      }
+	            catch(Exception exp)
+                    {
+	      JOptionPane.showMessageDialog(null, "Cannot connect to the database,check network settings.","ERROR",JOptionPane.ERROR_MESSAGE);
+	            }
+        //This method will populate our JTable
+        updateJTable();    
+    }
+ private void updateJTable(){
+             try{
+             String sql ="Select `id_no`,`surname`,`middle_name`, `first_name`, `balance`, `account_type` FROM `clients` ";
+           st=conn.prepareStatement(sql);
+           rs=st.executeQuery(sql);
+           jTable1.setModel(DbUtils.resultSetToTableModel(rs));
+         }
+         catch(Exception e){
+             JOptionPane.showMessageDialog(null, e);
+             
+         } 
+ }
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always

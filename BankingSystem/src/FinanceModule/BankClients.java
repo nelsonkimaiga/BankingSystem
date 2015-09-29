@@ -66,7 +66,7 @@ this.setResizable(false); //disable resizing of the window
     //Code that updates our JTable
  private void updateJTable(){
              try{
-             String sql ="Select `id_no`,`surname`,`middle_name`, `first_name`, `account_type` FROM `clients` ";
+             String sql ="Select `id_no`,`surname`,`middle_name`, `first_name`, `balance`, `account_type` FROM `clients` ";
            st=conn.prepareStatement(sql);
            rs=st.executeQuery(sql);
            jTable1.setModel(DbUtils.resultSetToTableModel(rs));

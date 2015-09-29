@@ -67,7 +67,7 @@ public class AccountOperations extends javax.swing.JFrame {
              String sql ="Select `id_no`,`surname`,`middle_name`, `first_name`, `balance`, `account_type` FROM `clients` ";
            st=conn.prepareStatement(sql);
            rs=st.executeQuery(sql);
-           jTable1.setModel(DbUtils.resultSetToTableModel(rs));
+           tblclients.setModel(DbUtils.resultSetToTableModel(rs));
          }
          catch(Exception e){
              JOptionPane.showMessageDialog(null, e);
@@ -86,9 +86,9 @@ public class AccountOperations extends javax.swing.JFrame {
         jTabbedPane1 = new javax.swing.JTabbedPane();
         jPanel1 = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
+        tblclients = new javax.swing.JTable();
         jButton1 = new javax.swing.JButton();
-        jTextField1 = new javax.swing.JTextField();
+        txtsearch = new javax.swing.JTextField();
         jPanel2 = new javax.swing.JPanel();
         jMenuBar1 = new javax.swing.JMenuBar();
         jMenu1 = new javax.swing.JMenu();
@@ -101,7 +101,7 @@ public class AccountOperations extends javax.swing.JFrame {
 
         jTabbedPane1.setFont(new java.awt.Font("Times New Roman", 1, 14)); // NOI18N
 
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+        tblclients.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null},
                 {null, null, null, null},
@@ -112,7 +112,7 @@ public class AccountOperations extends javax.swing.JFrame {
                 "Title 1", "Title 2", "Title 3", "Title 4"
             }
         ));
-        jScrollPane1.setViewportView(jTable1);
+        jScrollPane1.setViewportView(tblclients);
 
         jButton1.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         jButton1.setText("SEARCH");
@@ -135,7 +135,7 @@ public class AccountOperations extends javax.swing.JFrame {
                         .addGap(144, 144, 144)
                         .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 145, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 408, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addComponent(txtsearch, javax.swing.GroupLayout.PREFERRED_SIZE, 408, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap(64, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
@@ -145,7 +145,7 @@ public class AccountOperations extends javax.swing.JFrame {
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 225, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(txtsearch, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addComponent(jButton1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addGap(5, 5, 5)))
@@ -210,7 +210,21 @@ dispose();// TODO add your handling code here:
     }//GEN-LAST:event_jMenuItem1ActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        // TODO add your handling code here:
+        String t=txtsearch.getText();
+        String sql = "Select * from projectlogin where username like '"+t+"%'";
+        try{
+            st = (com.mysql.jdbc.Statement) conn.prepareStatement(sql);
+            rs = (ResultSet) st.executeQuery(sql);
+            tblclients.setModel(DbUtils.resultSetToTableModel(rs));
+            if(!rs.absolute(1)){ JOptionPane.showMessageDialog(null, "No results were found: " );}
+                
+
+        } catch(Exception exp){
+            System.out.println(exp);
+           
+
+        }
+                // TODO add your handling code here:
     }//GEN-LAST:event_jButton1ActionPerformed
 
     /**
@@ -242,7 +256,7 @@ dispose();// TODO add your handling code here:
     private javax.swing.JPanel jPanel2;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTabbedPane jTabbedPane1;
-    private javax.swing.JTable jTable1;
-    private javax.swing.JTextField jTextField1;
+    private javax.swing.JTable tblclients;
+    private javax.swing.JTextField txtsearch;
     // End of variables declaration//GEN-END:variables
 }

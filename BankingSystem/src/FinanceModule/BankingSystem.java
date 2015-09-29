@@ -15,8 +15,9 @@ public class BankingSystem {
      * @param args the command line arguments
      */
     
-  //Main Class that executes to the program
+  //This is our Main Class that executes to the actual program
     public static void main(String[] args) {
+        new ModuleDashboard().setVisible(true);
         // TODO code application logic here
     }
     

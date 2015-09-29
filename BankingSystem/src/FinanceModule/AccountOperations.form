@@ -101,7 +101,7 @@
                               <EmptySpace min="-2" pref="144" max="-2" attributes="0"/>
                               <Component id="jButton1" min="-2" pref="145" max="-2" attributes="0"/>
                               <EmptySpace type="unrelated" max="-2" attributes="0"/>
-                              <Component id="jTextField1" min="-2" pref="408" max="-2" attributes="0"/>
+                              <Component id="txtsearch" min="-2" pref="408" max="-2" attributes="0"/>
                           </Group>
                       </Group>
                       <EmptySpace pref="64" max="32767" attributes="0"/>
@@ -115,7 +115,7 @@
                       <Component id="jScrollPane1" min="-2" pref="225" max="-2" attributes="0"/>
                       <EmptySpace type="separate" max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                          <Component id="jTextField1" min="-2" pref="34" max="-2" attributes="0"/>
+                          <Component id="txtsearch" min="-2" pref="34" max="-2" attributes="0"/>
                           <Group type="102" attributes="0">
                               <Component id="jButton1" max="32767" attributes="0"/>
                               <EmptySpace min="5" pref="5" max="-2" attributes="0"/>
@@ -134,7 +134,7 @@
 
               <Layout class="org.netbeans.modules.form.compat2.layouts.support.JScrollPaneSupportLayout"/>
               <SubComponents>
-                <Component class="javax.swing.JTable" name="jTable1">
+                <Component class="javax.swing.JTable" name="tblclients">
                   <Properties>
                     <Property name="model" type="javax.swing.table.TableModel" editor="org.netbeans.modules.form.editors2.TableModelEditor">
                       <Table columnCount="4" rowCount="4">
@@ -159,7 +159,7 @@
                 <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jButton1ActionPerformed"/>
               </Events>
             </Component>
-            <Component class="javax.swing.JTextField" name="jTextField1">
+            <Component class="javax.swing.JTextField" name="txtsearch">
             </Component>
           </SubComponents>
         </Container>

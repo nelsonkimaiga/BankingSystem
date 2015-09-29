@@ -8,6 +8,7 @@ package FinanceModule;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.sql.Statement;
 import javax.swing.JOptionPane;
 import javax.swing.UIManager;
@@ -41,7 +42,8 @@ public class BankClients extends javax.swing.JFrame {
             
         }
         initComponents();
-        setLocationRelativeTo(null); 
+        setLocationRelativeTo(null);
+        
 
 this.setResizable(false); //disable resizing of the window
                
@@ -57,7 +59,7 @@ this.setResizable(false); //disable resizing of the window
                     {
 	      JOptionPane.showMessageDialog(null, "Cannot connect to the database,check network settings.","ERROR",JOptionPane.ERROR_MESSAGE);
 	            }
-        
+        LoadAccount();
     }
 
     /**
@@ -89,7 +91,7 @@ this.setResizable(false); //disable resizing of the window
         update = new javax.swing.JButton();
         cbotype = new javax.swing.JComboBox();
         jMenuBar1 = new javax.swing.JMenuBar();
-        jMenu1 = new javax.swing.JMenu();
+        back = new javax.swing.JMenu();
         jMenuItem1 = new javax.swing.JMenuItem();
         jMenuItem2 = new javax.swing.JMenuItem();
         jMenu2 = new javax.swing.JMenu();
@@ -146,15 +148,25 @@ this.setResizable(false); //disable resizing of the window
 
         cbotype.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "-SELECT AN ACCOUNT TYPE-" }));
 
-        jMenu1.setText("File");
+        back.setText("File");
 
         jMenuItem1.setText("Back");
-        jMenu1.add(jMenuItem1);
+        jMenuItem1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem1ActionPerformed(evt);
+            }
+        });
+        back.add(jMenuItem1);
 
         jMenuItem2.setText("Accounts");
-        jMenu1.add(jMenuItem2);
+        jMenuItem2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem2ActionPerformed(evt);
+            }
+        });
+        back.add(jMenuItem2);
 
-        jMenuBar1.add(jMenu1);
+        jMenuBar1.add(back);
 
         jMenu2.setText("Edit");
         jMenuBar1.add(jMenu2);
@@ -273,9 +285,42 @@ this.setResizable(false); //disable resizing of the window
             JOptionPane.showMessageDialog(null, "Fields empty. Enter your details ","Error",JOptionPane.ERROR_MESSAGE);
         } else{
             JOptionPane.showMessageDialog(null, "EMPTY INPUT FIELDS","Error",JOptionPane.ERROR_MESSAGE);
-        }        
-            // TODO add your handling code here:
+        }
+    } 
+ //Here I will call a method that loads items from the database to the combo box and populates it
+private void LoadAccount(){
+
+        try {
+            
+            System.out.println("Loading saved account names");
+            String sql1;
+            sql1 = "SELECT account_name FROM accounts WHERE isDeleted = 0 Order by account_name";
+            rs = st.executeQuery(sql1);
+
+            cbotype.removeAllItems();	
+            cbotype.addItem("");
+            //Empties the combobox
+            while (rs.next()) {													//Loops through each resultset until no other record is found.
+                cbotype.addItem(rs.getString("account_name"));	
+               // System.out.println(sql1);//addItem() adds an item to the combobox. rs.getString('field') gets the value of the record from the given field
+            }
+        } catch (SQLException x) {
+            //Catch any problem that you may get with your SQL statement
+            System.out.println("SQL Error while loading account_name: " + x.getMessage());
+        }
+   
+// TODO add your handling code here:
     }//GEN-LAST:event_jButton1ActionPerformed
+
+    private void jMenuItem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem1ActionPerformed
+new ModuleDashboard().setVisible(true);
+dispose();// TODO add your handling code here:
+    }//GEN-LAST:event_jMenuItem1ActionPerformed
+
+    private void jMenuItem2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem2ActionPerformed
+new Accounts().setVisible(true);
+dispose();// TODO add your handling code here:
+    }//GEN-LAST:event_jMenuItem2ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -297,6 +342,7 @@ this.setResizable(false); //disable resizing of the window
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JMenu back;
     private javax.swing.JComboBox cbotype;
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
@@ -308,7 +354,6 @@ this.setResizable(false); //disable resizing of the window
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
-    private javax.swing.JMenu jMenu1;
     private javax.swing.JMenu jMenu2;
     private javax.swing.JMenuBar jMenuBar1;
     private javax.swing.JMenuItem jMenuItem1;

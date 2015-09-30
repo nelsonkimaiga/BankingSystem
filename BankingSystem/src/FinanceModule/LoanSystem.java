@@ -14,6 +14,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 import javax.swing.UIManager;
+import net.proteanit.sql.DbUtils;
 
 /**
  *
@@ -44,7 +45,7 @@ public class LoanSystem extends javax.swing.JFrame {
         {
             
         }
-          initComponents();
+        initComponents();
         setLocationRelativeTo(null);
         this.setResizable(false);
         
@@ -64,8 +65,20 @@ public class LoanSystem extends javax.swing.JFrame {
         //creating methods that will be called later to load our dropdown menus
          // loadBranch(); //picks values from the clients table with respect to the branch field  
           loadCustomer(); //picks values from the clients table with respect to the name field
+          updateJTable();
     }
-
+  private void updateJTable(){
+             try{
+             String sql ="Select `customer_name`,`branch`,`account_number`, `amount` FROM `loans` ";
+           st=conn.prepareStatement(sql);
+           rs=st.executeQuery(sql);
+           jTable1.setModel(DbUtils.resultSetToTableModel(rs));
+         }
+         catch(Exception e){
+             JOptionPane.showMessageDialog(null, e);
+             
+         } 
+ }
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -145,6 +158,11 @@ public class LoanSystem extends javax.swing.JFrame {
         jScrollPane1.setViewportView(jTable1);
 
         jButton3.setText("Search");
+        jButton3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton3ActionPerformed(evt);
+            }
+        });
 
         jMenu1.setText("File");
         jMenu1.addActionListener(new java.awt.event.ActionListener() {
@@ -307,35 +325,29 @@ private void loadCustomer(){
             System.out.println("SQL Error while loading ID Numbers: " + x.getMessage());
            // JOptionPane.showMessageDialog("" + x.getMessage());
         }
-
-
-//method loadBranch
-/*private void loadBranch(){
-            try {
-            
-            System.out.println("Loading saved branch names");
-            String sql1;
-            sql1 = "SELECT branch FROM clients WHERE isDeleted = 0 Order by branch";//the sql query that returns branch from table clients
-            rs = st.executeQuery(sql1);
-
-            cbobranch.removeAllItems();	
-            cbobranch.addItem("");
-            //Empties the combobox
-            while (rs.next()) {													//Loops through each resultset until no other record is found.
-                cbobranch.addItem(rs.getString("branch"));	
-               // System.out.println(sql1);//addItem() adds an item to the combobox. rs.getString('field') gets the value of the record from the given field
-            }
-        } catch (SQLException x) {
-            //Catch any problem that you may get with your SQL statement
-            System.out.println("SQL Error while loading branch data: " + x.getMessage());
-           // JOptionPane.showMessageDialog("" + x.getMessage());
-        }*/
 // TODO add your handling code here:
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void cbocustomerMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_cbocustomerMouseClicked
 // TODO add your handling code here:
     }//GEN-LAST:event_cbocustomerMouseClicked
+
+    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
+        String t=txtsearch.getText();
+        String sql = "Select * from loans where  customer_name like '"+t+"%'";
+        try{
+            st = (com.mysql.jdbc.Statement) conn.prepareStatement(sql);
+            rs = (ResultSet) st.executeQuery(sql);
+            jTable1.setModel(DbUtils.resultSetToTableModel(rs));
+            if(!rs.absolute(1)){ JOptionPane.showMessageDialog(null, "No results were found: " );
+            }         
+
+        } catch(Exception exp){
+            System.out.println(exp);
+           
+        }
+                    // TODO add your handling code here:
+    }//GEN-LAST:event_jButton3ActionPerformed
 
     /**
      * @param args the command line arguments

@@ -10,6 +10,8 @@ import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 import javax.swing.UIManager;
 
@@ -60,7 +62,7 @@ public class LoanSystem extends javax.swing.JFrame {
 	            }
       
         //creating methods that will be called later to load our dropdown menus
-          loadBranch(); //picks values from the clients table with respect to the branch field  
+         // loadBranch(); //picks values from the clients table with respect to the branch field  
           loadCustomer(); //picks values from the clients table with respect to the name field
     }
 
@@ -82,8 +84,12 @@ public class LoanSystem extends javax.swing.JFrame {
         jButton2 = new javax.swing.JButton();
         jLabel5 = new javax.swing.JLabel();
         cbocustomer = new javax.swing.JComboBox();
-        cbobranch = new javax.swing.JComboBox();
         txtamount = new javax.swing.JTextField();
+        txtbranch = new javax.swing.JTextField();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        jTable1 = new javax.swing.JTable();
+        jButton3 = new javax.swing.JButton();
+        txtsearch = new javax.swing.JTextField();
         jMenuBar1 = new javax.swing.JMenuBar();
         jMenu1 = new javax.swing.JMenu();
         jMenuItem1 = new javax.swing.JMenuItem();
@@ -92,7 +98,6 @@ public class LoanSystem extends javax.swing.JFrame {
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("LOANS PROCESSING");
         setBounds(new java.awt.Rectangle(50, 150, 50, 150));
-        setResizable(false);
 
         jLabel1.setFont(new java.awt.Font("Times New Roman", 1, 14)); // NOI18N
         jLabel1.setText("LODGE BORROWED LOANS");
@@ -120,8 +125,26 @@ public class LoanSystem extends javax.swing.JFrame {
         jLabel5.setText("Customer Branch");
 
         cbocustomer.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "--SELECT A CUSTOMER--" }));
+        cbocustomer.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                cbocustomerMouseClicked(evt);
+            }
+        });
 
-        cbobranch.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "--SELECT A BRANCH--" }));
+        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null}
+            },
+            new String [] {
+                "Title 1", "Title 2", "Title 3", "Title 4"
+            }
+        ));
+        jScrollPane1.setViewportView(jTable1);
+
+        jButton3.setText("Search");
 
         jMenu1.setText("File");
         jMenu1.addActionListener(new java.awt.event.ActionListener() {
@@ -152,7 +175,7 @@ public class LoanSystem extends javax.swing.JFrame {
                             .addGroup(layout.createSequentialGroup()
                                 .addComponent(jLabel5)
                                 .addGap(18, 18, 18)
-                                .addComponent(cbobranch, javax.swing.GroupLayout.PREFERRED_SIZE, 224, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addComponent(txtbranch, javax.swing.GroupLayout.PREFERRED_SIZE, 224, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addGroup(layout.createSequentialGroup()
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                                     .addComponent(jLabel2, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -174,33 +197,52 @@ public class LoanSystem extends javax.swing.JFrame {
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                 .addComponent(jButton2))
                             .addComponent(txtamount))))
-                .addContainerGap(103, Short.MAX_VALUE))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 452, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(34, 34, 34))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(201, 201, 201)
+                        .addComponent(jButton3)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(txtsearch, javax.swing.GroupLayout.PREFERRED_SIZE, 247, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addContainerGap(95, Short.MAX_VALUE))))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addComponent(jLabel1)
-                .addGap(30, 30, 30)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel2)
-                    .addComponent(cbocustomer, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel5)
-                    .addComponent(cbobranch, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(26, 26, 26)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(txtnumber, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel3))
-                .addGap(18, 18, 18)
+                    .addComponent(jLabel1)
+                    .addGroup(layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jButton3)
+                            .addComponent(txtsearch, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                .addGap(13, 13, 13)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel4)
-                    .addComponent(txtamount, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jButton1)
-                    .addComponent(jButton2))
-                .addContainerGap(58, Short.MAX_VALUE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel2)
+                            .addComponent(cbocustomer, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(18, 18, 18)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel5)
+                            .addComponent(txtbranch, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(35, 35, 35)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(txtnumber, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel3))
+                        .addGap(18, 18, 18)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel4)
+                            .addComponent(txtamount, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(18, 18, 18)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jButton1)
+                            .addComponent(jButton2)))
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 201, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(40, Short.MAX_VALUE))
         );
 
         pack();
@@ -213,21 +255,21 @@ dispose();// TODO add your handling code here:
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
 String customername=cbocustomer.getSelectedItem().toString(); //will be populated from the the methods created above
-String branch=cbobranch.getSelectedItem().toString(); // will be populated from the the methods created above
-String userInput=txtnumber.getText();
-String userInput2=txtamount.getText();
+String userInput=txtbranch.getText();
+String userInput2=txtnumber.getText();
+String userInput3=txtamount.getText();
 
 //SQL Query and data transaction
   if (userInput.length() >0 ) {
   try {
-String sql="INSERT INTO loans VALUES('"+cbocustomer.getSelectedItem().toString()+"',"+"'"+cbobranch.getSelectedItem().toString()+"',"+"'"+txtnumber.getText()+"',"+"'"+txtamount.getText()+"', 0)";
+String sql="INSERT INTO loans VALUES('"+cbocustomer.getSelectedItem().toString()+"',"+"'"+txtbranch.getText()+"',"+"'"+txtnumber.getText()+"',"+"'"+txtamount.getText()+"', 0)";
 //executing our SQL QUERY
 	              st.execute(sql);
 	                JOptionPane.showMessageDialog(null,"Details successfully saved.","Information",JOptionPane.INFORMATION_MESSAGE );
 
                         //code that resets the input fields
                         cbocustomer.setSelectedIndex(0);
-                        cbobranch.setSelectedIndex(0);
+                        txtbranch.setText("");
                         txtnumber.setText("");
                         txtamount.setText("");
                        
@@ -237,7 +279,7 @@ String sql="INSERT INTO loans VALUES('"+cbocustomer.getSelectedItem().toString()
         }
          
 //more condition checking and error handling fucntions using || (and)
-        } else if(cbocustomer.equals(0)|| cbobranch.equals(0)||txtnumber.equals("")||txtamount.equals("")){
+        } else if(cbocustomer.equals(0)|| txtbranch.equals(0)||txtnumber.equals("")||txtamount.equals("")){
             JOptionPane.showMessageDialog(null, "Fields empty. Enter your details ","Error",JOptionPane.ERROR_MESSAGE);
         } else{
             JOptionPane.showMessageDialog(null, "EMPTY INPUT FIELDS","Error",JOptionPane.ERROR_MESSAGE);
@@ -265,10 +307,10 @@ private void loadCustomer(){
             System.out.println("SQL Error while loading ID Numbers: " + x.getMessage());
            // JOptionPane.showMessageDialog("" + x.getMessage());
         }
-}
+
 
 //method loadBranch
-private void loadBranch(){
+/*private void loadBranch(){
             try {
             
             System.out.println("Loading saved branch names");
@@ -287,9 +329,13 @@ private void loadBranch(){
             //Catch any problem that you may get with your SQL statement
             System.out.println("SQL Error while loading branch data: " + x.getMessage());
            // JOptionPane.showMessageDialog("" + x.getMessage());
-        }
+        }*/
 // TODO add your handling code here:
     }//GEN-LAST:event_jButton1ActionPerformed
+
+    private void cbocustomerMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_cbocustomerMouseClicked
+// TODO add your handling code here:
+    }//GEN-LAST:event_cbocustomerMouseClicked
 
     /**
      * @param args the command line arguments
@@ -311,10 +357,10 @@ private void loadBranch(){
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JComboBox cbobranch;
     private javax.swing.JComboBox cbocustomer;
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
+    private javax.swing.JButton jButton3;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
@@ -324,7 +370,11 @@ private void loadBranch(){
     private javax.swing.JMenu jMenu2;
     private javax.swing.JMenuBar jMenuBar1;
     private javax.swing.JMenuItem jMenuItem1;
+    private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JTable jTable1;
     private javax.swing.JTextField txtamount;
+    private javax.swing.JTextField txtbranch;
     private javax.swing.JTextField txtnumber;
+    private javax.swing.JTextField txtsearch;
     // End of variables declaration//GEN-END:variables
 }

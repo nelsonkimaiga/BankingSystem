@@ -14,9 +14,16 @@ import javax.swing.JOptionPane;
 import javax.swing.UIManager;
 import net.proteanit.sql.DbUtils;
 import java.awt.Image;
-import java.io.*;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.InputStream;
+import java.sql.PreparedStatement;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.ImageIcon;
 import javax.swing.JFileChooser;
+import java.sql.Blob;
 /**
  *
  * @author Kimaiga
@@ -72,7 +79,7 @@ this.setResizable(false); //disable resizing of the window
     //Code that updates our JTable
  private void updateJTable(){
              try{
-             String sql ="Select `id_no`,`surname`,`middle_name`, `first_name`, `balance`, `account_type` FROM `clients` ";
+             String sql ="Select `id_no`,`surname`,`middle_name`, `first_name`, `account_balance`, `account_type` FROM `clients` ";
            st=conn.prepareStatement(sql);
            rs=st.executeQuery(sql);
            jTable1.setModel(DbUtils.resultSetToTableModel(rs));
@@ -115,8 +122,6 @@ this.setResizable(false); //disable resizing of the window
         txtbalance = new javax.swing.JTextField();
         jButton6 = new javax.swing.JButton();
         label = new javax.swing.JLabel();
-        jButton7 = new javax.swing.JButton();
-        jButton8 = new javax.swing.JButton();
         text = new javax.swing.JTextField();
         jMenuBar1 = new javax.swing.JMenuBar();
         back = new javax.swing.JMenu();
@@ -126,6 +131,7 @@ this.setResizable(false); //disable resizing of the window
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("REGISTER A NEW CLIENT");
+        setResizable(false);
 
         jLabel1.setFont(new java.awt.Font("Times New Roman", 1, 14)); // NOI18N
         jLabel1.setText("REGISTER A NEW CLIENT");
@@ -211,10 +217,6 @@ this.setResizable(false); //disable resizing of the window
             }
         });
 
-        jButton7.setText("Add New");
-
-        jButton8.setText("Clear");
-
         text.setEditable(false);
 
         back.setText("File");
@@ -280,26 +282,21 @@ this.setResizable(false); //disable resizing of the window
                             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                                 .addComponent(jButton5)
                                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 526, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                .addComponent(jButton1)
-                                .addGroup(layout.createSequentialGroup()
-                                    .addComponent(jButton2)
-                                    .addGap(52, 52, 52)
-                                    .addComponent(txtsearch, javax.swing.GroupLayout.PREFERRED_SIZE, 98, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addGap(18, 18, 18)
-                                    .addComponent(jButton3)
-                                    .addGap(87, 87, 87)
-                                    .addComponent(update)
-                                    .addGap(18, 18, 18)
-                                    .addComponent(jButton4))))
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(jButton2)
+                                .addGap(52, 52, 52)
+                                .addComponent(txtsearch, javax.swing.GroupLayout.PREFERRED_SIZE, 98, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(18, 18, 18)
+                                .addComponent(jButton3)
+                                .addGap(87, 87, 87)
+                                .addComponent(update)
+                                .addGap(18, 18, 18)
+                                .addComponent(jButton4)))
                         .addGap(47, 47, 47))
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 181, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(jButton7)
-                                .addGap(39, 39, 39)
-                                .addComponent(jButton8)))
+                            .addComponent(jButton1))
                         .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
         );
         layout.setVerticalGroup(
@@ -349,10 +346,7 @@ this.setResizable(false); //disable resizing of the window
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(label, javax.swing.GroupLayout.PREFERRED_SIZE, 246, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jButton8)
-                    .addComponent(jButton7)
-                    .addComponent(jButton1))
+                .addComponent(jButton1)
                 .addGap(34, 34, 34))
         );
 
@@ -367,7 +361,7 @@ this.setResizable(false); //disable resizing of the window
         String userInput4=txtfirst.getText();
         String userInput5=txtbalance.getText();
         String userInput6=cbotype.getSelectedItem().toString();
-        
+   //validation of input fields
         if (userInput.length() >0 ) {
   try {
             String sql="INSERT INTO clients VALUES('"+txtid.getText()+"',"+"'"+txtsurname.getText()+"',"+"'"+txtmiddlename.getText()+"','"+txtfirst.getText()+"','"+txtbalance.getText()+"','"+cbotype.getSelectedItem().toString()+"',0)";
@@ -431,7 +425,8 @@ dispose();// TODO add your handling code here:
                        txtmiddlename.setText("");
                        txtfirst.setText("");
                        txtbalance.setText("");
-                       cbotype.setSelectedIndex(0);        // TODO add your handling code here:
+                       cbotype.setSelectedIndex(0);
+                       label.setIcon(new javax.swing.ImageIcon(getClass().getResource("/unknow_user_image - Copy.jpg"))); // NOI18N// TODO add your handling code here:
     }//GEN-LAST:event_jButton2ActionPerformed
 
     private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
@@ -524,6 +519,7 @@ dispose();// TODO add your handling code here:
     }//GEN-LAST:event_jButton3ActionPerformed
 
     private void jButton6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton6ActionPerformed
+//Code that takes us to image upload section 
         JFileChooser chooser = new JFileChooser();
         chooser.addChoosableFileFilter(new ImageFileFilter());
         int returnVal = chooser.showOpenDialog(null);
@@ -575,8 +571,6 @@ tinyPicture.setImage(image);
     private javax.swing.JButton jButton4;
     private javax.swing.JButton jButton5;
     private javax.swing.JButton jButton6;
-    private javax.swing.JButton jButton7;
-    private javax.swing.JButton jButton8;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;

@@ -78,7 +78,7 @@ this.setResizable(false); //disable resizing of the window
     //Code that updates our JTable
  private void updateJTable(){
              try{
-             String sql ="Select `id_no`,`surname`,`middle_name`, `first_name`, `account_balance`, `account_type` FROM `clients` ";
+             String sql ="Select `id_no`,`surname`,`middle_name`, `first_name`, `account_number`, `account_type` FROM `clients` ";
            st=conn.prepareStatement(sql);
            rs=st.executeQuery(sql);
            jTable1.setModel(DbUtils.resultSetToTableModel(rs));
@@ -118,7 +118,7 @@ this.setResizable(false); //disable resizing of the window
         cbotype = new javax.swing.JComboBox();
         jButton5 = new javax.swing.JButton();
         jLabel7 = new javax.swing.JLabel();
-        txtbalance = new javax.swing.JTextField();
+        txtaccno = new javax.swing.JTextField();
         jButton6 = new javax.swing.JButton();
         label = new javax.swing.JLabel();
         text = new javax.swing.JTextField();
@@ -207,7 +207,7 @@ this.setResizable(false); //disable resizing of the window
             }
         });
 
-        jLabel7.setText("Acc Balance");
+        jLabel7.setText("Acc No");
 
         jButton6.setText("upload image( MAX 2MB)");
         jButton6.addActionListener(new java.awt.event.ActionListener() {
@@ -256,14 +256,13 @@ this.setResizable(false); //disable resizing of the window
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                             .addComponent(label, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                                        .addComponent(jLabel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                        .addComponent(jLabel3, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                        .addComponent(jLabel4, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                        .addComponent(jLabel5, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                        .addComponent(jLabel6, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                                    .addComponent(jLabel7))
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                                    .addComponent(jLabel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(jLabel3, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(jLabel4, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(jLabel5, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(jLabel6, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(jLabel7, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                                 .addGap(18, 18, 18)
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                                     .addComponent(txtid)
@@ -271,7 +270,7 @@ this.setResizable(false); //disable resizing of the window
                                     .addComponent(txtmiddlename)
                                     .addComponent(txtfirst)
                                     .addComponent(cbotype, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                    .addComponent(txtbalance)))
+                                    .addComponent(txtaccno)))
                             .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
                                 .addComponent(jButton6)
                                 .addGap(18, 18, 18)
@@ -327,7 +326,7 @@ this.setResizable(false); //disable resizing of the window
                         .addGap(18, 18, 18)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel7)
-                            .addComponent(txtbalance, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                            .addComponent(txtaccno, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                     .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 172, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(21, 21, 21)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
@@ -358,12 +357,12 @@ this.setResizable(false); //disable resizing of the window
         String userInput2=txtsurname.getText();
         String userInput3=txtmiddlename.getText();
         String userInput4=txtfirst.getText();
-        String userInput5=txtbalance.getText();
+        String userInput5=txtaccno.getText();
         String userInput6=cbotype.getSelectedItem().toString();
    //validation of input fields
         if (userInput.length() >0 ) {
   try {
-            String sql="INSERT INTO clients VALUES('"+txtid.getText()+"',"+"'"+txtsurname.getText()+"',"+"'"+txtmiddlename.getText()+"','"+txtfirst.getText()+"','"+txtbalance.getText()+"','"+cbotype.getSelectedItem().toString()+"',0)";
+            String sql="INSERT INTO clients VALUES('"+txtid.getText()+"',"+"'"+txtsurname.getText()+"',"+"'"+txtmiddlename.getText()+"','"+txtfirst.getText()+"','"+txtaccno.getText()+"','"+cbotype.getSelectedItem().toString()+"',0)";
 //executing our SQL QUERY
 	              st.execute(sql);
 	                JOptionPane.showMessageDialog(null,"Details successfully saved.","Information",JOptionPane.INFORMATION_MESSAGE );
@@ -423,7 +422,7 @@ dispose();// TODO add your handling code here:
                        txtsurname.setText("");
                        txtmiddlename.setText("");
                        txtfirst.setText("");
-                       txtbalance.setText("");
+                       txtaccno.setText("");
                        cbotype.setSelectedIndex(0);
                         // NOI18N// TODO add your handling code here:
     }//GEN-LAST:event_jButton2ActionPerformed
@@ -565,7 +564,7 @@ dispose();// TODO add your handling code here:
     private javax.swing.JTable jTable1;
     private javax.swing.JLabel label;
     private javax.swing.JTextField text;
-    private javax.swing.JTextField txtbalance;
+    private javax.swing.JTextField txtaccno;
     private javax.swing.JTextField txtfirst;
     private javax.swing.JTextField txtid;
     private javax.swing.JTextField txtmiddlename;

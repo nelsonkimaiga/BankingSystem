@@ -15,6 +15,8 @@ import javax.swing.UIManager;
 import net.proteanit.sql.DbUtils;
 import java.awt.Image;
 import java.io.*;
+import javax.swing.ImageIcon;
+import javax.swing.JFileChooser;
 /**
  *
  * @author Kimaiga
@@ -30,6 +32,8 @@ public class BankClients extends javax.swing.JFrame {
         String password = ""; //password
         Statement st;
         ResultSet rs;
+        private File file=null;
+    private String path="";
 
     /**
      * Creates new form BankClients
@@ -110,9 +114,10 @@ this.setResizable(false); //disable resizing of the window
         jLabel7 = new javax.swing.JLabel();
         txtbalance = new javax.swing.JTextField();
         jButton6 = new javax.swing.JButton();
-        jLabel8 = new javax.swing.JLabel();
+        label = new javax.swing.JLabel();
         jButton7 = new javax.swing.JButton();
         jButton8 = new javax.swing.JButton();
+        text = new javax.swing.JTextField();
         jMenuBar1 = new javax.swing.JMenuBar();
         back = new javax.swing.JMenu();
         jMenuItem1 = new javax.swing.JMenuItem();
@@ -200,11 +205,18 @@ this.setResizable(false); //disable resizing of the window
 
         jLabel7.setText("Acc Balance");
 
-        jButton6.setText("upload image MAX 2 mb");
+        jButton6.setText("upload image( MAX 2MB)");
+        jButton6.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton6ActionPerformed(evt);
+            }
+        });
 
         jButton7.setText("Add New");
 
         jButton8.setText("Clear");
+
+        text.setEditable(false);
 
         back.setText("File");
 
@@ -265,10 +277,10 @@ this.setResizable(false); //disable resizing of the window
                                             .addComponent(txtfirst)
                                             .addComponent(cbotype, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                             .addComponent(txtbalance)))
-                                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                                    .addGroup(layout.createSequentialGroup()
                                         .addComponent(jButton6)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                        .addComponent(jButton1)))
+                                        .addGap(18, 18, 18)
+                                        .addComponent(text)))
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 41, Short.MAX_VALUE)
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addGroup(layout.createSequentialGroup()
@@ -281,7 +293,8 @@ this.setResizable(false); //disable resizing of the window
                                         .addComponent(update)
                                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                                         .addComponent(jButton4))
-                                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 452, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 452, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(jButton1))))
                         .addGap(25, 25, 25))
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(jButton7)
@@ -289,7 +302,7 @@ this.setResizable(false); //disable resizing of the window
                         .addComponent(jButton8)
                         .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(jLabel8, javax.swing.GroupLayout.PREFERRED_SIZE, 194, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(label, javax.swing.GroupLayout.PREFERRED_SIZE, 194, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(0, 0, Short.MAX_VALUE))))
         );
         layout.setVerticalGroup(
@@ -329,19 +342,20 @@ this.setResizable(false); //disable resizing of the window
                     .addComponent(jLabel6))
                 .addGap(21, 21, 21)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jButton1)
                     .addComponent(jButton2)
                     .addComponent(txtsearch, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jButton3)
                     .addComponent(update)
                     .addComponent(jButton4)
-                    .addComponent(jButton6))
+                    .addComponent(jButton6)
+                    .addComponent(text, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jLabel8, javax.swing.GroupLayout.DEFAULT_SIZE, 176, Short.MAX_VALUE)
+                .addComponent(label, javax.swing.GroupLayout.DEFAULT_SIZE, 176, Short.MAX_VALUE)
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jButton8)
-                    .addComponent(jButton7))
+                    .addComponent(jButton7)
+                    .addComponent(jButton1))
                 .addGap(34, 34, 34))
         );
 
@@ -512,6 +526,30 @@ dispose();// TODO add your handling code here:
                 // TODO add your handling code here:
     }//GEN-LAST:event_jButton3ActionPerformed
 
+    private void jButton6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton6ActionPerformed
+        JFileChooser chooser = new JFileChooser();
+        chooser.addChoosableFileFilter(new ImageFileFilter());
+        int returnVal = chooser.showOpenDialog(null);
+        
+        if(returnVal == JFileChooser.APPROVE_OPTION) {
+            file = chooser.getSelectedFile();
+            path=file.getPath();
+//            ImageIcon icon=new ImageIcon(path);
+             ImageIcon tinyPicture= new ImageIcon(path);
+            Image image= tinyPicture.getImage();
+            image = image.getScaledInstance(200, -1, Image.SCALE_SMOOTH);
+            label.setIcon(tinyPicture);
+//            label.setIcon(icon);
+            text.setText(path);
+            
+            repaint();
+            
+
+tinyPicture.setImage(image);
+
+        }        // TODO add your handling code here:
+    }//GEN-LAST:event_jButton6ActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -549,13 +587,14 @@ dispose();// TODO add your handling code here:
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
-    private javax.swing.JLabel jLabel8;
     private javax.swing.JMenu jMenu2;
     private javax.swing.JMenuBar jMenuBar1;
     private javax.swing.JMenuItem jMenuItem1;
     private javax.swing.JMenuItem jMenuItem2;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTable jTable1;
+    private javax.swing.JLabel label;
+    private javax.swing.JTextField text;
     private javax.swing.JTextField txtbalance;
     private javax.swing.JTextField txtfirst;
     private javax.swing.JTextField txtid;

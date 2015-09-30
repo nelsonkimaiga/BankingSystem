@@ -17,7 +17,7 @@ public class BankingSystem {
     
   //This is our Main Class that executes to the actual program
     public static void main(String[] args) {
-        new ModuleDashboard().setVisible(true);
+        new FinanceDashboard().setVisible(true);
         // TODO code application logic here
     }
     

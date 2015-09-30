@@ -8,6 +8,7 @@ package FinanceModule;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.sql.Statement;
 import javax.swing.JOptionPane;
 import javax.swing.UIManager;
@@ -44,9 +45,6 @@ public class LoanSystem extends javax.swing.JFrame {
           initComponents();
         setLocationRelativeTo(null);
         this.setResizable(false);
-        //creating methids that will be called later to load our dropdown menus
-      //  loadCustomer(); //picks values from the clients table with respect to the name field
-      //  loadBranch(); //picks values from the clients table with respect to the branch field
         
 //database connection test
                  try{
@@ -60,8 +58,10 @@ public class LoanSystem extends javax.swing.JFrame {
                     {
 	      JOptionPane.showMessageDialog(null, "Cannot connect to the database,check network settings.","ERROR",JOptionPane.ERROR_MESSAGE);
 	            }
-        
       
+        //creating methods that will be called later to load our dropdown menus
+          loadBranch(); //picks values from the clients table with respect to the branch field  
+          loadCustomer(); //picks values from the clients table with respect to the name field
     }
 
     /**
@@ -98,7 +98,7 @@ public class LoanSystem extends javax.swing.JFrame {
         jLabel1.setText("LODGE BORROWED LOANS");
 
         jLabel2.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
-        jLabel2.setText("Customer Name");
+        jLabel2.setText("Customer ID No");
 
         jLabel3.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
         jLabel3.setText("Account Number");
@@ -237,7 +237,52 @@ String sql="INSERT INTO loans VALUES('"+cbocustomer.getSelectedItem().toString()
         } else{
             JOptionPane.showMessageDialog(null, "EMPTY INPUT FIELDS","Error",JOptionPane.ERROR_MESSAGE);
         }
-    
+    }
+ //adding algorithms that will populate the combo boxes
+private void loadCustomer(){    
+
+            try {
+            
+            System.out.println("Loading saved customer names");
+            String sql1;
+            sql1 = "SELECT id_no FROM clients WHERE isDeleted = 0 Order by id_no";//the sql query that returns id_no from table clients
+            rs = st.executeQuery(sql1);
+
+            cbocustomer.removeAllItems();	
+            cbocustomer.addItem("");
+            //Empties the combobox
+            while (rs.next()) {													//Loops through each resultset until no other record is found.
+                cbocustomer.addItem(rs.getString("id_no"));	
+               // System.out.println(sql1);//addItem() adds an item to the combobox. rs.getString('field') gets the value of the record from the given field
+            }
+        } catch (SQLException x) {
+            //Catch any problem that you may get with your SQL statement
+            System.out.println("SQL Error while loading ID Numbers: " + x.getMessage());
+           // JOptionPane.showMessageDialog("" + x.getMessage());
+        }
+}
+
+//method loadBranch
+private void loadBranch(){
+            try {
+            
+            System.out.println("Loading saved branch names");
+            String sql1;
+            sql1 = "SELECT branch FROM clients WHERE isDeleted = 0 Order by branch";//the sql query that returns branch from table clients
+            rs = st.executeQuery(sql1);
+
+            cbobranch.removeAllItems();	
+            cbobranch.addItem("");
+            //Empties the combobox
+            while (rs.next()) {													//Loops through each resultset until no other record is found.
+                cbobranch.addItem(rs.getString("branch"));	
+               // System.out.println(sql1);//addItem() adds an item to the combobox. rs.getString('field') gets the value of the record from the given field
+            }
+        } catch (SQLException x) {
+            //Catch any problem that you may get with your SQL statement
+            System.out.println("SQL Error while loading branch data: " + x.getMessage());
+           // JOptionPane.showMessageDialog("" + x.getMessage());
+        }
 // TODO add your handling code here:
     }//GEN-LAST:event_jButton1ActionPerformed
 

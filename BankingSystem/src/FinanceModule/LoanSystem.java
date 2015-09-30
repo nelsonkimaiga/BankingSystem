@@ -225,6 +225,11 @@ String sql="INSERT INTO loans VALUES('"+cbocustomer.getSelectedItem().toString()
 	              st.execute(sql);
 	                JOptionPane.showMessageDialog(null,"Details successfully saved.","Information",JOptionPane.INFORMATION_MESSAGE );
 
+                        //code that resets the input fields
+                        cbocustomer.setSelectedIndex(0);
+                        cbobranch.setSelectedIndex(0);
+                        txtnumber.setText("");
+                        txtamount.setText("");
                        
 //catch any errors may occur
         } catch (Exception e) {

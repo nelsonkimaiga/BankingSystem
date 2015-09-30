@@ -39,8 +39,7 @@ public class BankClients extends javax.swing.JFrame {
         String password = ""; //password
         Statement st;
         ResultSet rs;
-        private File file=null;
-    private String path="";
+        
 
     /**
      * Creates new form BankClients
@@ -426,7 +425,7 @@ dispose();// TODO add your handling code here:
                        txtfirst.setText("");
                        txtbalance.setText("");
                        cbotype.setSelectedIndex(0);
-                       label.setIcon(new javax.swing.ImageIcon(getClass().getResource("/unknow_user_image - Copy.jpg"))); // NOI18N// TODO add your handling code here:
+                        // NOI18N// TODO add your handling code here:
     }//GEN-LAST:event_jButton2ActionPerformed
 
     private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
@@ -520,27 +519,7 @@ dispose();// TODO add your handling code here:
 
     private void jButton6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton6ActionPerformed
 //Code that takes us to image upload section 
-        JFileChooser chooser = new JFileChooser();
-        chooser.addChoosableFileFilter(new ImageFileFilter());
-        int returnVal = chooser.showOpenDialog(null);
-        
-        if(returnVal == JFileChooser.APPROVE_OPTION) {
-            file = chooser.getSelectedFile();
-            path=file.getPath();
-//            ImageIcon icon=new ImageIcon(path);
-             ImageIcon tinyPicture= new ImageIcon(path);
-            Image image= tinyPicture.getImage();
-            image = image.getScaledInstance(200, -1, Image.SCALE_SMOOTH);
-            label.setIcon(tinyPicture);
-//            label.setIcon(icon);
-            text.setText(path);
-            
-            repaint();
-            
-
-tinyPicture.setImage(image);
-
-        }        // TODO add your handling code here:
+  // TODO add your handling code here:
     }//GEN-LAST:event_jButton6ActionPerformed
 
     /**

@@ -5,6 +5,11 @@
  */
 package FinanceModule;
 
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.ResultSet;
+import java.sql.Statement;
+import javax.swing.JOptionPane;
 import javax.swing.UIManager;
 
 /**
@@ -12,6 +17,17 @@ import javax.swing.UIManager;
  * @author Kimaiga
  */
 public class LoanSystem extends javax.swing.JFrame {
+    
+    //database connection variables
+            Connection conn= null;
+        
+        String url = "jdbc:mysql://localhost/"; //database URL
+        String dbName = "banking_system"; //database system
+        String driver ="com.mysql.jdbc.Driver"; //driver specified
+        String userName = "root"; //DB username
+        String password = ""; //password
+        Statement st;
+        ResultSet rs;
 
     /**
      * Creates new form LoansSystem
@@ -25,11 +41,21 @@ public class LoanSystem extends javax.swing.JFrame {
         {
             
         }
-        initComponents();
         setLocationRelativeTo(null);
-        
+        this.setResizable(false); 
+//database connection test
+                 try{
+	       Class.forName(driver);
 
-this.setResizable(false); //d
+             conn = (com.mysql.jdbc.Connection) DriverManager.getConnection(url+dbName,userName,password);
+
+              st = (com.mysql.jdbc.Statement) conn.createStatement();
+	      }
+	            catch(Exception exp)
+                    {
+	      JOptionPane.showMessageDialog(null, "Cannot connect to the database,check network settings.","ERROR",JOptionPane.ERROR_MESSAGE);
+	            }
+        
         initComponents();
     }
 
@@ -97,7 +123,7 @@ this.setResizable(false); //d
                             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                                 .addComponent(txtid)
                                 .addComponent(txtloan, javax.swing.GroupLayout.DEFAULT_SIZE, 238, Short.MAX_VALUE)))))
-                .addContainerGap(504, Short.MAX_VALUE))
+                .addContainerGap(71, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -117,7 +143,7 @@ this.setResizable(false); //d
                         .addComponent(txtloan, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addGap(18, 18, 18)
                 .addComponent(jButton1)
-                .addContainerGap(257, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         pack();

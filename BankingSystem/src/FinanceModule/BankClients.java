@@ -81,7 +81,7 @@ this.setResizable(false); //disable resizing of the window
              String sql ="Select `id_no`,`surname`,`middle_name`, `first_name`, `account_number`, `account_type` FROM `clients` ";
            st=conn.prepareStatement(sql);
            rs=st.executeQuery(sql);
-           jTable1.setModel(DbUtils.resultSetToTableModel(rs));
+           tblclient.setModel(DbUtils.resultSetToTableModel(rs));
          }
          catch(Exception e){
              JOptionPane.showMessageDialog(null, e);
@@ -110,7 +110,7 @@ this.setResizable(false); //disable resizing of the window
         jButton1 = new javax.swing.JButton();
         jButton2 = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
+        tblclient = new javax.swing.JTable();
         txtsearch = new javax.swing.JTextField();
         jButton3 = new javax.swing.JButton();
         jButton4 = new javax.swing.JButton();
@@ -171,7 +171,7 @@ this.setResizable(false); //disable resizing of the window
             }
         });
 
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+        tblclient.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null},
                 {null, null, null, null},
@@ -182,7 +182,12 @@ this.setResizable(false); //disable resizing of the window
                 "Title 1", "Title 2", "Title 3", "Title 4"
             }
         ));
-        jScrollPane1.setViewportView(jTable1);
+        tblclient.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tblclientMouseClicked(evt);
+            }
+        });
+        jScrollPane1.setViewportView(tblclient);
 
         jButton3.setText("search");
         jButton3.addActionListener(new java.awt.event.ActionListener() {
@@ -437,7 +442,7 @@ dispose();// TODO add your handling code here:
             
             rs = (ResultSet) st.executeQuery(sql);
             st = (com.mysql.jdbc.Statement) conn.prepareStatement(sql);                            //Refreshes our JTable
-            jTable1.setModel(DbUtils.resultSetToTableModel(rs));                                
+            tblclient.setModel(DbUtils.resultSetToTableModel(rs));                                
         } catch(Exception exp){
             JOptionPane.showMessageDialog(null, exp,"Error",JOptionPane.ERROR_MESSAGE);           
 
@@ -507,7 +512,7 @@ dispose();// TODO add your handling code here:
         try{
             st = (com.mysql.jdbc.Statement) conn.prepareStatement(sql);
             rs = (ResultSet) st.executeQuery(sql);
-            jTable1.setModel(DbUtils.resultSetToTableModel(rs));
+            tblclient.setModel(DbUtils.resultSetToTableModel(rs));
             if(!rs.absolute(1)){ JOptionPane.showMessageDialog(null, "No results were found: " );}
                 
 
@@ -518,6 +523,20 @@ dispose();// TODO add your handling code here:
         }
                 // TODO add your handling code here:
     }//GEN-LAST:event_jButton3ActionPerformed
+
+    private void tblclientMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblclientMouseClicked
+        // TODO add your handling code here:
+        //adding code that allows user to edit and update from user input fields
+        int row =tblclient.getSelectedRow();
+        
+        txtid.setText(tblclient.getModel().getValueAt(row, 0).toString());
+        txtsurname.setText(tblclient.getModel().getValueAt(row, 2).toString());
+        txtmiddlename.setText(tblclient.getModel().getValueAt(row, 3).toString());
+        txtfirst.setText(tblclient.getModel().getValueAt(row, 4).toString());
+        cbotype.setSelectedItem(tblclient.getModel().getValueAt(row, 5).toString());
+        txtaccno.setText(tblclient.getModel().getValueAt(row, 1).toString());
+        txtbranch.setEnabled(true);        // TODO add your handling code here:
+    }//GEN-LAST:event_tblclientMouseClicked
 
     /**
      * @param args the command line arguments
@@ -559,7 +578,7 @@ dispose();// TODO add your handling code here:
     private javax.swing.JMenuItem jMenuItem1;
     private javax.swing.JMenuItem jMenuItem2;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTable jTable1;
+    private javax.swing.JTable tblclient;
     private javax.swing.JTextField txtaccno;
     private javax.swing.JTextField txtbranch;
     private javax.swing.JTextField txtfirst;

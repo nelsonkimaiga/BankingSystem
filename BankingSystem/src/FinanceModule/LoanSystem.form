@@ -231,6 +231,8 @@
       </Properties>
       <Events>
         <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="cbocustomerMouseClicked"/>
+        <EventHandler event="mouseReleased" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="cbocustomerMouseReleased"/>
+        <EventHandler event="popupMenuWillBecomeInvisible" listener="javax.swing.event.PopupMenuListener" parameters="javax.swing.event.PopupMenuEvent" handler="cbocustomerPopupMenuWillBecomeInvisible"/>
       </Events>
     </Component>
     <Component class="javax.swing.JTextField" name="txtamount">

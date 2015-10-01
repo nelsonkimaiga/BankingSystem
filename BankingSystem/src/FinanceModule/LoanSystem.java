@@ -142,6 +142,18 @@ public class LoanSystem extends javax.swing.JFrame {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 cbocustomerMouseClicked(evt);
             }
+            public void mouseReleased(java.awt.event.MouseEvent evt) {
+                cbocustomerMouseReleased(evt);
+            }
+        });
+        cbocustomer.addPopupMenuListener(new javax.swing.event.PopupMenuListener() {
+            public void popupMenuCanceled(javax.swing.event.PopupMenuEvent evt) {
+            }
+            public void popupMenuWillBecomeInvisible(javax.swing.event.PopupMenuEvent evt) {
+                cbocustomerPopupMenuWillBecomeInvisible(evt);
+            }
+            public void popupMenuWillBecomeVisible(javax.swing.event.PopupMenuEvent evt) {
+            }
         });
 
         jTable1.setModel(new javax.swing.table.DefaultTableModel(
@@ -358,6 +370,39 @@ private void loadCustomer(){
 new FinanceDashboard().setVisible(true);
 dispose();// TODO add your handling code here:
     }//GEN-LAST:event_jMenuItem1ActionPerformed
+
+    private void cbocustomerMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_cbocustomerMouseReleased
+        // TODO add your handling code here:
+    }//GEN-LAST:event_cbocustomerMouseReleased
+
+    private void cbocustomerPopupMenuWillBecomeInvisible(javax.swing.event.PopupMenuEvent evt) {//GEN-FIRST:event_cbocustomerPopupMenuWillBecomeInvisible
+String customer_name=(String)cbocustomer.getSelectedItem();
+String sql=("select * from loans where customer_name like '"+customer_name+"%'");
+
+try{
+    rs=st.executeQuery(sql);
+    st = (Statement) (java.sql.Statement) conn.prepareStatement (sql);
+  //populate data in our tetx fields
+          if (rs.next()) {
+String userInput = rs.getString("branch");
+txtbranch.setText(userInput);
+
+String account_number=rs.getString("account_number");
+txtnumber.setText(account_number);
+
+String loan_amount=rs.getString("amount");
+txtamount.setText(loan_amount);
+          }
+}
+//CATCHING EXCEPTIONS //ERROR HANDLING
+    catch (Exception e)
+    {
+        System.out.println(e);
+        JOptionPane.showMessageDialog(null, "Error: " + e.getMessage());
+    }
+
+// TODO add your handling code here:
+    }//GEN-LAST:event_cbocustomerPopupMenuWillBecomeInvisible
 
     /**
      * @param args the command line arguments

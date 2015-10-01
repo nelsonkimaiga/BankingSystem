@@ -458,12 +458,21 @@ dispose();// TODO add your handling code here:
             if (a==JOptionPane.OK_OPTION) {
                 String sql = "Update clients set surname ='"+txtsurname.getText()+"', middle_name ='"+txtmiddlename.getText()+"' , first_name ='"+txtfirst.getText()+"', account_type ='"+cbotype.getSelectedItem().toString()+"' where id_no='"+txtid.getText()+"'";
 
-
         try{
             
            st =     (com.mysql.jdbc.Statement) conn.prepareStatement(sql);
             st.executeUpdate(sql);
             
+            JOptionPane.showMessageDialog(null,"Details successfully updated.","Feedback",JOptionPane.INFORMATION_MESSAGE );
+            
+            //clear inout fields after succsful update
+                       txtid.setText("");
+                       txtsurname.setText("");
+                       txtmiddlename.setText("");
+                       txtfirst.setText("");
+                       txtaccno.setText("");
+                       cbotype.setSelectedIndex(0);
+                       txtbranch.setText("");
                                             
         } catch(Exception exp){
             JOptionPane.showMessageDialog(null, exp,"Error",JOptionPane.ERROR_MESSAGE);           
@@ -491,6 +500,15 @@ dispose();// TODO add your handling code here:
              st = (com.mysql.jdbc.Statement) conn.prepareStatement(sql);
             st.executeUpdate(sql);
             JOptionPane.showMessageDialog(null, "Deletion successful.");
+            
+            //clear input fields after succesful deletion
+                       txtid.setText("");
+                       txtsurname.setText("");
+                       txtmiddlename.setText("");
+                       txtfirst.setText("");
+                       txtaccno.setText("");
+                       cbotype.setSelectedIndex(0);
+                       txtbranch.setText("");
                                             
         } catch(Exception exp){
             JOptionPane.showMessageDialog(null, "Items selected are not deleted,try again! ","Error",JOptionPane.ERROR_MESSAGE);           
@@ -535,6 +553,7 @@ dispose();// TODO add your handling code here:
         txtfirst.setText(tblclient.getModel().getValueAt(row, 4).toString());
         cbotype.setSelectedItem(tblclient.getModel().getValueAt(row, 5).toString());
         txtaccno.setText(tblclient.getModel().getValueAt(row, 1).toString());
+        txtbranch.setText(tblclient.getModel().getValueAt(row, 5).toString());
         txtbranch.setEnabled(true);        // TODO add your handling code here:
     }//GEN-LAST:event_tblclientMouseClicked
 
